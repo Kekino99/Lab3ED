@@ -14,19 +14,19 @@ public class SharedStack<E> implements Stack<E> {
         }
     }
 
-    public SharedStack () {
-        topOfStack=new Node<>(null, null);
+    public SharedStack() {
+        topOfStack = new Node<>(null, null);
     }
 
     private SharedStack(E elem, Node<E> next) {
         topOfStack = new Node<>(elem, next);
     }
 
-    private SharedStack(Node<E> topOfStack){
+    private SharedStack(Node<E> topOfStack) {
         this.topOfStack = topOfStack;
     }
     //Otros Constructores
-        //¿?
+    //¿?
 
 
     // methods of Stack<E>;
@@ -37,7 +37,7 @@ public class SharedStack<E> implements Stack<E> {
 
     @Override
     public SharedStack<E> pop() throws StackError {
-        if(isEmpty()) {
+        if (isEmpty()) {
             throw new StackError("Empty Stack");
         } else {
             return new SharedStack<>(topOfStack.next);
@@ -46,7 +46,7 @@ public class SharedStack<E> implements Stack<E> {
 
     @Override
     public E top() throws StackError {
-        if(isEmpty()) {
+        if (isEmpty()) {
             throw new StackError("Empty Stack");
         } else {
             return topOfStack.elem;
