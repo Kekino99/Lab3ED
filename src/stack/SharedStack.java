@@ -16,6 +16,9 @@ public class SharedStack<E> implements Stack<E> {
         }
     }
 
+    /**
+     * Constructor of the class. Returns a new empty stack
+     */
     public SharedStack() {
         topOfStack = new Node<>(null, null);
     }
@@ -32,11 +35,23 @@ public class SharedStack<E> implements Stack<E> {
 
 
     // methods of Stack<E>;
+
+    /**
+     * Puts an element to a new stack
+     * @param elem new element of the new stack
+     * @return new stack
+     */
     @Override
     public SharedStack<E> push(E elem) {
         return new SharedStack<>(elem, topOfStack);
     }
 
+    /**
+     * Deletes the last element pushed in the stack
+     * @return a stack without the last element
+     * @throws StackError if the stack was empty. Please, use
+     *      isEmpty() method to manage the error
+     */
     @Override
     public SharedStack<E> pop() throws StackError {
         if (isEmpty()) {
@@ -46,6 +61,12 @@ public class SharedStack<E> implements Stack<E> {
         }
     }
 
+    /**
+     *
+     * @return the last element pushed in the stack
+     * @throws StackError if the stack was empty. Please, use
+     *      *      isEmpty() method to manage the error
+     */
     @Override
     public E top() throws StackError {
         if (isEmpty()) {
@@ -55,6 +76,10 @@ public class SharedStack<E> implements Stack<E> {
         }
     }
 
+    /**
+     *
+     * @return checks if the stack has no elements in there
+     */
     @Override
     public boolean isEmpty() {
         return (topOfStack.next) == null;

@@ -11,6 +11,7 @@ public class SharedStackTest {
     private SharedStack<Integer> stack2;
 
 
+    //Quan es fan un per un funciona, quan es fan tots el programa diu "failed to start". Preguntar al profe
     @Before
     public void initStack() {
         stack1 = new SharedStack<>();
