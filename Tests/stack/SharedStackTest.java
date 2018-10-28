@@ -11,7 +11,7 @@ public class SharedStackTest {
     private SharedStack<Integer> stack2;
 
 
-    //Quan es fan un per un funciona, quan es fan tots el programa diu "failed to start". Preguntar al profe
+    //Preguntar sobre exit (No funciona com s'espera (?))
     @Before
     public void initStack() {
         stack1 = new SharedStack<>();
@@ -84,7 +84,7 @@ public class SharedStackTest {
     }
 
     @org.junit.Test
-    public void stackErrorTest() {
+    public void stackErrorPopTest() {
         try{
             stack1.pop();
         } catch(StackError err) {
@@ -93,8 +93,25 @@ public class SharedStackTest {
         try {
             SharedStack<String> stack = new SharedStack<>();
             stack.pop();
+            exit(3);
         } catch (StackError error) {
-            exit(0); //Should catch something
+            //exit(0); //Should catch something
+        }
+    }
+
+    @org.junit.Test
+    public void stackErrorTopTest() {
+        try {
+            stack1.top();
+        } catch (StackError err) {
+            exit(3); //Shouldnt catch anything
+        }
+        try {
+            SharedStack<String> stack = new SharedStack<>();
+            stack.top();
+            exit(3);
+        } catch (StackError error) {
+            //Exit amb 0 no funciona com s'espera (??)
         }
     }
 
