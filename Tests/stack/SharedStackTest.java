@@ -32,6 +32,7 @@ public class SharedStackTest {
         result = result.push(3);
         assertEquals(result, stack);
         assertEquals(stack1, stack2);
+        assertEquals("3, ", stack.toString());
     }
 
     @org.junit.Test
@@ -40,12 +41,17 @@ public class SharedStackTest {
             while (!stack1.isEmpty() && !stack2.isEmpty()) {
                 stack1 = stack1.pop();
                 stack2 = stack2.pop();
-
                 assertEquals(stack1, stack2);
             }
+
+            SharedStack<Integer> stack = new SharedStack<>(), altStack = new SharedStack<>();
+            stack = stack.push(3);
+            altStack = stack.push(4);
+            assertEquals(stack, altStack.pop());
         } catch (StackError err) {
-            exit(-1); //Preguntar si fer aixi o assertTrue(false);
+            exit(3); //Preguntar si fer aixi o assertTrue(false);
         }
+
 
     }
 
@@ -54,8 +60,8 @@ public class SharedStackTest {
         Integer[] array = new Integer[10];
         SharedStack<Integer> stack = new SharedStack<>();
 
-        for (int i = 0; i<10; i++) {
-            array[i]=i;
+        for (int i = 0; i < 10; i++) {
+            array[i] = i;
             stack = stack.push(array[i]);
         }
         try {
@@ -64,7 +70,7 @@ public class SharedStackTest {
                 stack = stack.pop();
             }
         } catch (StackError err) {
-            exit(1);
+            exit(3);
         }
     }
 
@@ -72,7 +78,7 @@ public class SharedStackTest {
     public void isEmpty() {
         SharedStack<Integer> stack = new SharedStack<>();
         assertTrue(stack.isEmpty());
-        stack =stack.push(3);
+        stack = stack.push(3);
         assertFalse(stack.isEmpty());
         try {
             stack = stack.pop();
@@ -83,41 +89,39 @@ public class SharedStackTest {
 
     }
 
-    @org.junit.Test
-    public void stackErrorPopTest() {
-        try{
-            stack1.pop();
-        } catch(StackError err) {
-            exit(3); //Shouldnt catch anything
-        }
-        try {
-            SharedStack<String> stack = new SharedStack<>();
-            stack.pop();
-            exit(3);
-        } catch (StackError error) {
-            //exit(0); //Should catch something
-        }
+    @org.junit.Test(expected = stack.StackError.class)
+    public void stackErrorUnexpectedPopTest() {
+        SharedStack<String> stack = new SharedStack<>();
+        stack.pop();
     }
 
     @org.junit.Test
+    public void stackErrorPopTest() {
+        try {
+            stack1.pop();
+        } catch (StackError err) {
+            exit(3); //Shouldnt catch anything
+        }
+    }
+
+    @org.junit.Test(expected = StackError.class)
     public void stackErrorTopTest() {
+        SharedStack<String> stack = new SharedStack<>();
+        stack.top();
+    }
+
+    @org.junit.Test
+    public void stackErrorUnexpectedTopTest() {
         try {
             stack1.top();
         } catch (StackError err) {
             exit(3); //Shouldnt catch anything
         }
-        try {
-            SharedStack<String> stack = new SharedStack<>();
-            stack.top();
-            exit(3);
-        } catch (StackError error) {
-            //Exit amb 0 no funciona com s'espera (??)
-        }
     }
 
     @org.junit.Test
     public void referenceTest() {
-        SharedStack<MutableInt> stack3= new SharedStack<>();
+        SharedStack<MutableInt> stack3 = new SharedStack<>();
         SharedStack<MutableInt> stack4;
         MutableInt number = new MutableInt(5);
         stack3 = stack3.push(new MutableInt(3));
