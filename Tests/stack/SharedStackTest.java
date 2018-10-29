@@ -1,9 +1,8 @@
 package stack;
 
 import MutableInt.MutableInt;
+import org.junit.Assert;
 import org.junit.Before;
-
-import static java.lang.System.exit;
 import static org.junit.Assert.*;
 
 public class SharedStackTest {
@@ -44,12 +43,12 @@ public class SharedStackTest {
                 assertEquals(stack1, stack2);
             }
 
-            SharedStack<Integer> stack = new SharedStack<>(), altStack = new SharedStack<>();
+            SharedStack<Integer> stack = new SharedStack<>(), altStack;
             stack = stack.push(3);
             altStack = stack.push(4);
             assertEquals(stack, altStack.pop());
         } catch (StackError err) {
-            exit(3); //Preguntar si fer aixi o assertTrue(false);
+            Assert.fail();
         }
 
 
@@ -70,7 +69,7 @@ public class SharedStackTest {
                 stack = stack.pop();
             }
         } catch (StackError err) {
-            exit(3);
+            Assert.fail();
         }
     }
 
@@ -84,15 +83,21 @@ public class SharedStackTest {
             stack = stack.pop();
             assertTrue(stack.isEmpty());
         } catch (StackError err) {
-            exit(3);
+            Assert.fail();
         }
 
     }
 
     @org.junit.Test(expected = stack.StackError.class)
-    public void stackErrorUnexpectedPopTest() {
+    public void stackErrorUnexpectedPopTest() throws StackError {
         SharedStack<String> stack = new SharedStack<>();
         stack.pop();
+    }
+
+    @org.junit.Test(expected = StackError.class)
+    public void stackErrorTopTest() throws StackError {
+        SharedStack<String> stack = new SharedStack<>();
+        stack.top();
     }
 
     @org.junit.Test
@@ -100,22 +105,18 @@ public class SharedStackTest {
         try {
             stack1.pop();
         } catch (StackError err) {
-            exit(3); //Shouldnt catch anything
+            Assert.fail(); //Shouldnt catch anything
         }
     }
 
-    @org.junit.Test(expected = StackError.class)
-    public void stackErrorTopTest() {
-        SharedStack<String> stack = new SharedStack<>();
-        stack.top();
-    }
+
 
     @org.junit.Test
     public void stackErrorUnexpectedTopTest() {
         try {
             stack1.top();
         } catch (StackError err) {
-            exit(3); //Shouldnt catch anything
+            Assert.fail(); //Shouldnt catch anything
         }
     }
 
@@ -135,7 +136,7 @@ public class SharedStackTest {
         try {
             assertEquals(number, stack3.top());
         } catch (StackError err) {
-            exit(3);
+            Assert.fail();
         }
     }
 }
